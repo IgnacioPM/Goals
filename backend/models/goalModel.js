@@ -1,14 +1,19 @@
 import mongoose from "mongoose";
 
 const goalsSquema = mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
     text: {
         type: String,
         required: [true, 'Please add a text value']
 
     }
 },
-{
-  timestamps: true,
-})
+    {
+        timestamps: true,
+    })
 const Goal = mongoose.model("Goal", goalsSquema);
 export default Goal;
