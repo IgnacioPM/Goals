@@ -8,10 +8,10 @@ function Header() {
         <Link to='/'>GoalSetter</Link>
       </div>
       <ul>
-        <li>
-          <button>
+        <li to='/login'>
+          <Link to='/login'>
             <FaSignOutAlt /> Logout
-          </button>
+          </Link>
         </li>
         <li>
           <Link to='/login'>
