@@ -1,11 +1,28 @@
 import path from 'path'
 import express from 'express'
 import 'dotenv/config'
-import colors from 'colors'
 import cors from 'cors'
 
 import { errorHandler } from './middleware/errorMiddleware.js';
 import { connectDB } from './config/db.js';
+
+const port = process.env.PORT || 5000;
+
+connectDB();
+
+app.use(cors());
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+import postRoutes from './routes/goalRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')));
@@ -19,19 +36,8 @@ if (process.env.NODE_ENV === 'production') {
     app.get('/', (req, res) => res.send('Please set to production'));
 }
 
-import postRoutes from './routes/goalRoutes.js';
-import userRoutes from './routes/userRoutes.js';
-
-const app = express()
-const PORT = process.env.PORT || 8000
-connectDB()
-
-app.use(cors());
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-
 app.use('/api/goals', postRoutes)
 app.use('/api/users', userRoutes)
-app.use(errorHandler)
+app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`server listening on port ${PORT}`))
+app.listen(port, () => console.log(`Server started on port ${port}`));
